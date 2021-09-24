@@ -1,0 +1,1 @@
+This folder contains all exercises from "Basic Syntax, Conditional Statements and Loops" including the optional ones.

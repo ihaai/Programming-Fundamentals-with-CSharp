@@ -1,0 +1,1 @@
+This folder contains all exercises from "Data Types and Variables" including the optional ones.
