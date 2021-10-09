@@ -8,7 +8,7 @@ namespace _07._Max_Sequence_of_Equal_Elements
         static void Main(string[] args)
         {
             int[] array = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            string biggestOccuringNumber = null;
+            int biggestOccuringNumber = new int();
             int sameOccuranceCount = 0;
             int leadingOccuranceCount = 0;
 
@@ -20,18 +20,31 @@ namespace _07._Max_Sequence_of_Equal_Elements
                     if (sameOccuranceCount > leadingOccuranceCount)
                     {
                         leadingOccuranceCount = sameOccuranceCount;
-                        biggestOccuringNumber = array[i].ToString();
+                        biggestOccuringNumber = array[i];
                     }
                 }
-                else
+                else if (array[i] != array[i + 1])
                 {
                     sameOccuranceCount = 0;
                 }
+                else if (array[i] != array[i + 1] && sameOccuranceCount == 0 && leadingOccuranceCount == 0)
+                {
+                    biggestOccuringNumber = array[0];
+                }
             }
 
-            for (int i = 0; i <= leadingOccuranceCount; i++)
+
+
+            if (leadingOccuranceCount > 0)
             {
-                Console.Write(biggestOccuringNumber + " ");
+                for (int i = 0; i <= leadingOccuranceCount; i++)
+                {
+                    Console.Write(biggestOccuringNumber + " ");
+                }
+            }
+            else
+            {
+                Console.WriteLine(array[0]);
             }
         }
     }
