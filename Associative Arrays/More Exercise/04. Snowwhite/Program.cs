@@ -4,36 +4,51 @@ using System.Collections.Generic;
 
 namespace _04._Snowwhite
 {
+    public class Dwarf
+    {
+        public string Name { get; set; }
+        public string Color { get; set; }
+        public int Physics { get; set; }
+
+        public Dwarf(string name, string color, int physics)
+        {
+            this.Name = name;
+            this.Color = color;
+            this.Physics = physics;
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            Dictionary<string, int> DwarfInformation = new Dictionary<string, int>();
+            List<Dwarf> dwarfCollection = new List<Dwarf>();
 
-            var startInput = Console.ReadLine();
-            while (startInput != "Once upon a time")
+            string[] newDwarf = Console.ReadLine().Split(" <:> ").ToArray();
+            while (newDwarf[0] != "Once upon a time")
             {
-                var input = startInput.Split(" <:> ").ToList();
-                var nameID = input[0] + ":" + input[1];
-                var physics = int.Parse(input[2]);
+                string name = newDwarf[0];
+                string color = newDwarf[1];
+                int physics = int.Parse(newDwarf[2]);
 
-                if (!DwarfInformation.ContainsKey(nameID))
+                Dwarf checkDwarf = dwarfCollection.FirstOrDefault(x => x.Name == name && x.Color == color);
+
+                if (checkDwarf == null)
                 {
-                    DwarfInformation.Add(nameID, physics);
+                    dwarfCollection.Add(new Dwarf(name, color, physics));
                 }
                 else
                 {
-                    DwarfInformation[nameID] = Math.Max(DwarfInformation[nameID], physics);
+                    checkDwarf.Physics = Math.Max(checkDwarf.Physics, physics);
                 }
 
-                startInput = Console.ReadLine();
+                newDwarf = Console.ReadLine().Split(" <:> ").ToArray();
             }
 
-
-            foreach (var Dwarf in DwarfInformation.OrderByDescending(x => x.Value).ThenByDescending(y => DwarfInformation.Where(x => x.Key.Split(":")[1] == y.Key.Split(":")[1]).Count()))
-            {
-                Console.WriteLine($"({Dwarf.Key.Split(":")[1]}) {Dwarf.Key.Split(":")[0]} <-> {Dwarf.Value}");
-            }
+            Console.WriteLine(string.Join("\n", 
+                dwarfCollection.OrderByDescending(x => x.Physics)
+                .ThenByDescending(x => dwarfCollection.Where(y => y.Color == x.Color).Count())
+                .Select(x => $"({x.Color}) {x.Name} <-> {x.Physics}")));
         }
     }
 }
